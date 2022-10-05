@@ -1,5 +1,5 @@
 # 1. 도커 허브나 로컬의 이미지 이름을 넣는다.
-FROM node
+FROM node:12
 
 WORKDIR /app
 
