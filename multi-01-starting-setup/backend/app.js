@@ -70,6 +70,7 @@ app.post('/goals', async (req, res) => {
   }
 });
 
+
 app.delete('/goals/:id', async (req, res) => {
   console.log('TRYING TO DELETE GOAL');
   try {
@@ -84,7 +85,7 @@ app.delete('/goals/:id', async (req, res) => {
 });
 
 mongoose.connect(
-  'mongodb://hojin:secret@mongodb:27017/course-goals?authSource=admin',
+  `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
