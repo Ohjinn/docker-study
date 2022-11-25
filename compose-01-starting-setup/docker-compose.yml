@@ -25,10 +25,27 @@ services:
       # dockerfile: Dockerfile
       # args:
       #   some-arg: 1
-
-
-  # frontend:
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app # 기존 명령어에서 사용했던 바인트마운트 절대 경로를 docker-compose에서는 상대경로를 사용 가능
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env # 환경변수를 가져올 루트
+    depends_on: # 의존성을 가지고 있는 컨테이너가 있을 경우를 위한 의존성 지정
+      - mongodb
+  frontend:
+    build: ./frontend # 도커 컴포즈는 코드 변경을 감지해 자동으로 리빌드된다
+    ports: '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src # 코드 변경사항을 유지하기 위한 바운드마운트
+    stdin_open: true # 개방형 서비스에 개방형 입력 연결이 필요함을 알림
+    tty: true # 해당 터미널에 연결하기 위함
+    depends_on:
+      - backend
 
 volumes:
   data:
+  logs:
   # 도커가 services를 위해 생성해야 하는 명명된 볼륨을 생성하기 위한 명령어
